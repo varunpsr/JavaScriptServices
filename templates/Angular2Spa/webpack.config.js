@@ -18,6 +18,7 @@ var sharedConfig = {
             { test: /\.ts$/, include: /ClientApp/, loaders: ['ts?silent=true', 'angular2-template'] },
             { test: /\.html$/, loader: 'html' },
             { test: /\.css$/, loader: 'to-string!css' },
+            { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
             { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: 'url', query: { limit: 25000 } }
         ]
     }
@@ -26,7 +27,10 @@ var sharedConfig = {
 // Configuration for client-side bundle suitable for running in browsers
 var clientBundleOutputDir = './wwwroot/dist';
 var clientBundleConfig = merge(sharedConfig, {
-    entry: { 'main-client': './ClientApp/boot-client.ts' },
+    entry: {
+        'style': './ClientApp/styles/style.scss',
+        'main-client': './ClientApp/boot-client.ts'
+    },
     output: { path: path.join(__dirname, clientBundleOutputDir) },
     plugins: [
         new webpack.DllReferencePlugin({
